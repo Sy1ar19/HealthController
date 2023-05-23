@@ -10,9 +10,14 @@ public class HealthBar : MonoBehaviour
 
     private Coroutine _healthBarCoroutine;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _player.OnHealthChanged += UpdateHealthBar;
+        _player.HealthChanged += UpdateHealthBar;
+    }
+
+    private void OnDisable()
+    {
+        _player.HealthChanged -= UpdateHealthBar;
     }
 
     private void UpdateHealthBar(int health)
@@ -24,6 +29,7 @@ public class HealthBar : MonoBehaviour
 
         _healthBarCoroutine = StartCoroutine(ChangeHealthBarSmoothly(health));
     }
+
 
     private IEnumerator ChangeHealthBarSmoothly(int targetHealth)
     {
